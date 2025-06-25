@@ -9,7 +9,8 @@ import {registerUser,
         changeEmail,
         deleteUser,
         changeAvatar,
-        changeCoverImage
+        changeCoverImage,
+        changeBio
     } from "../controllers/user.controller.js"
 import { upload } from "../middlewares/multer.middleware.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js"
@@ -36,5 +37,6 @@ router.route("/change-email").post(verifyJWT, changeEmail)
 router.route("/delete").post(verifyJWT, deleteUser)
 router.route("/change-avatar").post(verifyJWT, upload.single('avatar'),changeAvatar)
 router.route("/change-coverImage").post(verifyJWT, upload.single('coverImage'),changeCoverImage)
+router.route("/change-bio").post(verifyJWT, changeBio)
 
 export default router

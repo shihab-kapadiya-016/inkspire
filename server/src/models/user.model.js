@@ -16,6 +16,10 @@ const userSchema = new Schema({
         unique: true,
         lowercase: true
     },
+
+    bio: {
+        type: String,
+    },
     
     password: {
         type:String,
@@ -35,6 +39,12 @@ const userSchema = new Schema({
         type: String
     },
 
+    postId: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Post"
+        }
+    ]
 
 
 } , {timestamps : true})

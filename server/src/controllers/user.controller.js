@@ -26,7 +26,7 @@ const generateAccessAndRefreshTokens = async (_id) => {
 
 
 const registerUser = asyncHandler(async (req,res) => {
-    const {username, email , password} = req.body
+    const {username, bio , email , password} = req.body
 
     if([username,email,password].some((field) => field.trim() === "")) {
         throw new ApiError(401, "all fields are required ")
@@ -54,6 +54,7 @@ const registerUser = asyncHandler(async (req,res) => {
         username,
         email,
         password,
+        bio: bio || "",
         avatar: avatar.url,
         coverImage: coverImage.url || ""
     })
@@ -257,6 +258,28 @@ const changeEmail = asyncHandler(async (req,res) => {
     }
 })
 
+const changeBio = asyncHandler(async (req,res) => {
+    const {bio} = req.body
+
+    if(!bio) {
+        throw new ApiError(401, "Please provide the bio")
+    }
+
+    const user = await User.findById()
+
+    if (!user) {
+        throw new ApiError(404, "User not found")
+    }
+
+    user.bio = bio
+    user.save()
+
+    res.status(200).json(
+        new ApiResponse(200, "Bio changed successfully")
+    )
+
+})
+
 const deleteUser = asyncHandler(async (req,res) => {
     
     await User.findByIdAndDelete(req.user._id)
@@ -322,5 +345,6 @@ export {
     changeEmail,
     deleteUser,
     changeAvatar,
-    changeCoverImage
+    changeCoverImage,
+    changeBio
 }
