@@ -19,6 +19,26 @@ export const getPostByIdService = async (postId) => {
     return post;
 };
 
+const getPostById = asyncHandler(async (req,res) => {
+    const {id} = req.params
+
+    if(!id) {
+        throw new ApiError(400, "Post ID is required")
+    }
+
+    const post = await Post.findById(id)
+
+    if(!post) {
+        throw new ApiError(404, "Post not found")
+    }
+
+    res
+    .status(200)
+    .json(
+        new ApiResponse(200, "Post fetched  successfully" , post)
+    )
+})
+
 const createPost = asyncHandler(async (req,res) => {
     try {
         const {title, description} = req.body
@@ -67,7 +87,7 @@ const createPost = asyncHandler(async (req,res) => {
 
 const getAllPosts = asyncHandler(async (req,res) => {
     try {
-        const posts = await Post.find().sort({createdAt: - 1}).select("-__v -authorId")
+        const posts = await Post.find().sort({createdAt: - 1}).select("-__v ")
 
         res
         .status(200)
@@ -193,6 +213,37 @@ const toggleLikes = asyncHandler(async (req,res) => {
     
 })
 
+const getAllPostsOfUser = asyncHandler(async (req,res) => {
+    try {
+        const user = await User.findById(req.user._id)
+
+        if(!user) {
+            throw new ApiError(404, "User not found")
+        }
+        
+        const postIds = user.postId
+
+
+        if(!postIds) {
+            throw new ApiError(404, "PostIds not found")
+        }
+
+
+        const posts = await Promise.all(
+            postIds.map(async (id) => await Post.findById(id))
+        )
+
+        res
+        .status(200)
+        .json(
+            new ApiResponse(200, "posts fetched successfully", posts)
+        )
+
+    } catch (error) {
+        throw new ApiError(500, "Internal Server Error", error.message)
+    }
+})
+
 
 
 export {
@@ -200,5 +251,7 @@ export {
     getAllPosts,
     deletePost,
     updatePost,
-    toggleLikes
+    toggleLikes,
+    getAllPostsOfUser,
+    getPostById
 }

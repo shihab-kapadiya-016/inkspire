@@ -42,7 +42,8 @@ const registerUser = asyncHandler(async (req,res) => {
 
     const avatarLocalPath = req.files?.avatar[0]?.path
     const coverImageLocalPath = req.files?.coverImage[0]?.path
-
+    
+    
     if (!avatarLocalPath) {
         throw new ApiError(401,"avatar is required")
     }
@@ -334,6 +335,26 @@ const changeCoverImage = asyncHandler(async (req,res) => {
     )
 })
 
+const getUserById = asyncHandler(async (req,res) => {
+    const { id } = req.params
+
+    if(!id) {
+        throw new ApiError(400, "ID is required")
+    }
+
+    const user = await User.findById(id).select("-password")
+
+    if(!user) {
+        throw new ApiError(404, "User not found")
+    }
+
+    res
+    .status(200)
+    .json(
+        new ApiResponse(200 , "User fetched successfully", user)
+    )
+})
+
 export {
     registerUser,
     loginUser,
@@ -346,5 +367,6 @@ export {
     deleteUser,
     changeAvatar,
     changeCoverImage,
-    changeBio
+    changeBio,
+    getUserById
 }

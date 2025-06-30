@@ -27,7 +27,7 @@ const postComment = asyncHandler(async (req,res) => {
         const formattedComment = await Comment.findById(comment._id).select("-__v -authorId")
 
         const post = await Post.findByIdAndUpdate(postId, {
-            $push: {comments: comment._id}
+            $push: {commentIds: comment._id}
         }, {
             new: true
         })
@@ -76,7 +76,7 @@ const getAllCommentsOfPost = asyncHandler(async (req,res) => {
             throw new ApiError(404, "Post not found")
         }
     
-        const commentIds = post.comments
+        const commentIds = post.commentIds
         const comments = await Comment.find({_id: {$in: commentIds}})
     
         res
@@ -165,7 +165,7 @@ const toggleLikes = asyncHandler(async (req,res) => {
         res
         .status(200)
         .json(
-            new ApiResponse(200, "Comment likes toggled successfully", comment.likes.length)
+            new ApiResponse(200, "Comment likes toggled successfully", comment)
         )
     } catch (error) {
         throw new ApiError(500, "Internal server error: " + error.message)
