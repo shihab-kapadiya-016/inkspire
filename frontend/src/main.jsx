@@ -21,6 +21,7 @@ import {
     ChangePassword,
     ChangeUsername 
 } from './Components/Settings/index.js'
+import Contact from './Components/Contact/Contact.jsx'
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path='/' element={<Layout />}>
@@ -37,6 +38,7 @@ const router = createBrowserRouter(
             <Route path='dashboard/create' element={<CreateBlog />} />
             <Route path='dashboard/edit-blog/:id' element={<EditBlog />} />
             <Route path='blogs/:id' element={<BlogDetail />} />
+            <Route path='/contact' element={<Contact />} />
         </Route>
     )
 ) 

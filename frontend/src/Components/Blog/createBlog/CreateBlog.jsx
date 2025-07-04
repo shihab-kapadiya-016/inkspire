@@ -10,6 +10,7 @@ const CreateBlog = () => {
     const [content, setContent] = useState("");
     const [thumbnail, setThumbnail] = useState()
     const [preview , setPreview] = useState()
+    const [isFeatured, setIsFeatured] = useState(false)
 
 
     const [error, setError] = useState(false)
@@ -37,6 +38,7 @@ const CreateBlog = () => {
             formData.append("title", title)
             formData.append("description", content)
             formData.append("thumbnail", thumbnail)
+            formData.append("isFeatured", isFeatured)
 
         const response = await axios.post("/api/v1/post/create-post", formData);
         setSuccess(true)
@@ -102,6 +104,14 @@ const CreateBlog = () => {
             onChange={(e) => setContent(e.target.value)}
             required
             />
+            <label className="flex items-center gap-2 mt-4">
+            <input
+            type="checkbox"
+            checked={isFeatured}
+            onChange={(e) => setIsFeatured(e.target.checked)}
+            />
+            Mark as Featured
+            </label>
             <button
             type="submit"
             className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"

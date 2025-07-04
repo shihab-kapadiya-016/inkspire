@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Comment } from "../models/comment.model.js";
 import { Post } from "../models/post.model.js";
 import { ApiError } from "../utils/ApiError.js";
@@ -52,7 +53,7 @@ const deleteComment = asyncHandler(async (req,res) => {
     }
 
     const post = await Post.findByIdAndUpdate(comment.postId, {
-        $pull: {comments: commentId}
+        $pull: {commentIds : new mongoose.Types.ObjectId(commentId)}
     }, {
         new: true
     })
@@ -123,12 +124,8 @@ const getAllRepliesOfComment = asyncHandler(async (req,res) => {
     try {
         const {commentId} = req.params
     
-        const comment = await Comment.findById(commentId)
-    
-        const replyIds = comment.replies
-    
-        const replies = await Comment.findById({$in: replyIds})
-    
+        const replies = await Comment.find({parentCommentId: commentId})
+
         res
         .status(200)
         .json(

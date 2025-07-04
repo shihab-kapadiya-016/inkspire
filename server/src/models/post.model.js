@@ -25,7 +25,11 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Comment",
         default: []
-    }]
+    }],
+    isFeatured: {
+        type: Boolean,
+        default: false
+    }
 }, {timestamps:true})
 
 export const Post = model("Post", postSchema)

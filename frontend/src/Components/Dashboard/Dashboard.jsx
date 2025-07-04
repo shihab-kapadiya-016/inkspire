@@ -26,15 +26,7 @@ export default function Dashboard() {
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
     const stateUser = useSelector((state) => state.auth.user)
 
-    const onDelete = async () => {
-        try {
-            const response = await axios.post(`delete-post/`)
-        } catch (error) {
-            console.error("Fetch error:", error.response?.data || error.message);
-
-        }
-    }
-
+    
 
     useEffect(() => {
         ;( async () => {
@@ -50,9 +42,8 @@ export default function Dashboard() {
                 dispatch(loginSuccess(userData))
 
                 const res = await axios.get('/api/v1/post/get-posts-of-user')
-                const postsData = res.data.data
-                
-                setPosts(postsData)
+                const cleanPosts = res.data.data.filter(Boolean); // remove nulls
+                setPosts(cleanPosts);
                 
         } catch (error) {
             console.error("Fetch error:", error.response?.data || error.message);

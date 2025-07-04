@@ -10,24 +10,31 @@ const LogoutPage = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
+    let timer;
 
-    ;(async () => {
-        const response = await axios.post('/api/v1/users/logout')
-        console.log(response.data)
+    const logoutUser = async () => {
+        try {
+            const response = await axios.post("/api/v1/users/logout");
+            console.log(response.data);
+        } catch (err) {
+            console.error("Logout failed", err);
+        } finally {
+            dispatch(logout());
 
-        dispatch(logout())
+            // Redirect after 3 seconds
+            timer = setTimeout(() => {
+            navigate("/login");
+            }, 3000);
+        }
+        };
 
-            
-        const timer = setTimeout(() => {
-            
-        navigate("/login");
-        }, 3000);
+        logoutUser();
 
-        return () => clearTimeout(timer);
-        
-    })()
-    
-    }, [navigate]);
+        // Cleanup timer on component unmount
+        return () => {
+        if (timer) clearTimeout(timer);
+        };
+    }, [dispatch, navigate]);
 
     return (
         <div className="min-h-screen bg-white flex items-center justify-center px-4">

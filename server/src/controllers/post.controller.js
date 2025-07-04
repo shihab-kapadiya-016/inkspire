@@ -41,7 +41,7 @@ const getPostById = asyncHandler(async (req,res) => {
 
 const createPost = asyncHandler(async (req,res) => {
     try {
-        const {title, description} = req.body
+        const {title, description, isFeatured} = req.body
     
         if(!title) {
             throw new ApiError(400, "Title is required")
@@ -59,11 +59,11 @@ const createPost = asyncHandler(async (req,res) => {
             title,
             description: description || "",
             thumbnail: thumbnail.url,
-            authorId: req.user._id
+            authorId: req.user._id,
+            isFeatured: isFeatured || false
         })
 
         const formattedPost = await getPostByIdService(post._id)
-
     
         const user = await User.findById(req.user._id)
     
@@ -82,6 +82,23 @@ const createPost = asyncHandler(async (req,res) => {
         )
     } catch (error) {
         throw new ApiError(500, "Internal Server Error", error.message)
+    }
+})
+
+
+const getFeaturedPosts = asyncHandler(async (req,res) => {
+    try {
+        const featuredPosts = await Post.find({isFeatured: true })
+        .limit(3)
+        .sort({createdAt: - 1})
+
+        res
+        .status(200)
+        .json(
+            new ApiResponse(200, "Post fetched successfully", featuredPosts)
+        )
+    } catch (error) {
+        
     }
 })
 
@@ -253,5 +270,6 @@ export {
     updatePost,
     toggleLikes,
     getAllPostsOfUser,
-    getPostById
+    getPostById,
+    getFeaturedPosts
 }

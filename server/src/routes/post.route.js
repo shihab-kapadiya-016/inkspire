@@ -6,6 +6,7 @@ import {
     deletePost, 
     getAllPosts, 
     getAllPostsOfUser, 
+    getFeaturedPosts, 
     getPostById, 
     toggleLikes, 
     updatePost
@@ -20,5 +21,6 @@ router.route("/update-post/:id").put(verifyJWT, upload.single("thumbnail"), upda
 router.route("/toggle-likes/:id").put(verifyJWT, toggleLikes)
 router.route("/get-posts-of-user").get(verifyJWT, getAllPostsOfUser)
 router.route("/get-post-by-id/:id").get(verifyJWT, getPostById)
+router.route("/featured").get(getFeaturedPosts)
 
 export default router;

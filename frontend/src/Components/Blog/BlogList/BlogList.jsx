@@ -16,8 +16,17 @@ const BlogList = () => {
             
         })()
     }, [])
-
+if (blogs.length === 0) {
     return (
+        <div className="flex items-center justify-center h-64">
+        <h1 className="text-xl text-gray-500 font-medium">
+            No blogs yet. 📝
+        </h1>
+        </div>
+    );
+    }
+
+    return ( 
         <div className="min-h-screen bg-white px-4 py-12 max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold text-orange-600 mb-10">Latest Blog Posts</h1>
 

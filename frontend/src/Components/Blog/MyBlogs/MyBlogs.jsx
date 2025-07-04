@@ -9,9 +9,10 @@ const MyBlogs = ({ posts, setPosts }) => {
         await axios.delete(`/api/v1/post/delete-post/${id}`)
         
         setPosts((prev) => prev.filter((post)=> post._id !== id))
-
+        
     }
-
+    
+    
     return (
             <div className="bg-white rounded-lg shadow p-6 space-y-4">
             <div className="flex items-center justify-between">
@@ -28,15 +29,17 @@ const MyBlogs = ({ posts, setPosts }) => {
                 </Link>
             </div>
 
-        <div className="space-y-3">
-            {posts.length > 0 ? (
-            posts.map((post) => (
-                <PostCard key={post._id} post={post} onDelete={onDelete} />
-            ))
-            ) : (
-            <p className="text-sm text-gray-500">You haven’t posted anything yet.</p>
-            )}
-        </div>
+            <div className="space-y-3">
+                {Array.isArray(posts) && posts.length > 0 ? (
+                        posts
+                        .filter(Boolean)
+                        .map((post) => (
+                            <PostCard key={post?._id} post={post} onDelete={onDelete} />
+                        ))
+                    ) : (
+                        <p className="text-sm text-gray-500">You haven’t posted anything yet.</p>
+                    )}
+            </div>
         </div>
     );
     };

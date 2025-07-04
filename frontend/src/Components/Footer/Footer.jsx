@@ -3,8 +3,8 @@ import { Github } from "lucide-react";
 
 export  function Footer() {
     return (
-        <footer className="bg-white border-t mt-10">
-        <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-6 text-gray-600">
+        <footer className="bg-white border-t mt-10 ">
+        <div className="max-w-7xl mx-auto px-4 py-8  flex flex-col md:flex-row items-center justify-between gap-6 text-gray-600">
             {/* Left: Branding */}
             <p className="text-sm text-center md:text-left">
             Built by <span className="text-blue-600 font-semibold">Shihab</span>

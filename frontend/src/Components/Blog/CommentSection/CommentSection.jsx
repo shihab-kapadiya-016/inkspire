@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import api from "../../axios";
 import CommentList from "../CommentList/CommentList";
+import RepliesViewer from "../RepliesViewer/RepliesViewer";
 
-const CommentSection = ({ postId }) => {
+const CommentSection = ({ postId, handleDelete, setPost }) => {
     const [newComment, setNewComment] = useState("");
     const [comments, setComments] = useState([])
 
@@ -12,16 +13,21 @@ const CommentSection = ({ postId }) => {
             const commentsData = commentResponse.data.data
             setComments(commentsData)
         })()
-    },[postId])
+    },[postId, newComment])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!newComment.trim()) return;
 
         const commentPostResponse = await api.post(`/comment/post-comment/${postId}`, {content: newComment})
-        
-
+    
         setNewComment("");
+
+        const res = await api.get(`/post/get-post-by-id/${postId}`)
+        const postData = res.data.data
+
+        console.log(postData);
+        setPost(postData)
     };
 
     return (
@@ -46,7 +52,8 @@ const CommentSection = ({ postId }) => {
         </form>
 
         {/* Comment List */}
-        <CommentList  postId={postId}/>
+        <CommentList comments={comments} setComments={setComments} postId={postId} handleDelete={handleDelete}/>
+        
         </div>
     );
 };

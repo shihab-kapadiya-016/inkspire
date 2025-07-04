@@ -2,6 +2,13 @@ import { FileText, Pencil, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const PostCard = ({ post, onDelete }) => {
+
+    if(!post) {
+        console.warn("Post is null");
+        return null; // 🛑 Prevent rendering and crash
+    }
+
+
     const { _id, title, createdAt, thumbnail, description } = post;
 
     return (

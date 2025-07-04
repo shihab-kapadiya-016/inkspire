@@ -1,11 +1,21 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../axios";
 
 export function Header() {
 
-    const isLoggedIn  = useSelector((state) => state.auth.isLoggedIn );
+    const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const {isLoggedIn} = useSelector((state) => state.auth)
+
+    console.log(isLoggedIn);
+    
+
+    
+
+    
     
 
     return (
@@ -21,10 +31,10 @@ export function Header() {
             <Link to="/about" className="text-gray-600 hover:text-blue-600 transition">
                 About
             </Link>
-            <Link to="/blogs" className="text-gray-600 hover:text-blue-600 transition">
+            <Link to="/dashboard/create" className="text-gray-600 hover:text-blue-600 transition">
                 Blog
             </Link>
-            <Link to="/explore" className="text-gray-600 hover:text-blue-600 transition">
+            <Link to="/blogs" className="text-gray-600 hover:text-blue-600 transition">
                 Explore
             </Link>
             <Link to="/dashboard" className="text-gray-600 hover:text-blue-600 transition">
