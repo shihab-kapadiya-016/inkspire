@@ -84,20 +84,8 @@ inkspire/
 
 ---
 
-## 🌐 Live Demo
-
-Coming soon...
-
----
-
 ## ✨ Author
 
-Built with 💙 by Shihab Kapadiya  
+Built by Shihab Kapadiya  
 GitHub: https://github.com/shihab-kapadiya-016
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License.
 ```
